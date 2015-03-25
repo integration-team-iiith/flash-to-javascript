@@ -5,17 +5,17 @@ The AS3 libraries implemented by jangaroo and their current status can be found 
 https://github.com/CoreMedia/jangaroo-libs/tree/master/jooflash/src/main/joo
 
 The two main packages implemented here are:
-..1. flash
-..2. flashx
++ flash
++ flashx
 
 Required APIs
 ====================================================================================
 
 Below is the list of AS3 libraries imported by IIIT-H Lab experiments. Core AS3 packages out of them are:
-..1. flash
-..2. mx
-..3. fl
-..4. adobe
++ flash
++ mx
++ fl
++ adobe
 Libraries such as com.* are external to Flash and can be ignored.
 
 com.longtailvideo.jwplayer.view.interfaces.IDockComponent; 5  
