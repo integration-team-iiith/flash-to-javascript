@@ -37,7 +37,7 @@ import com.jpexs.helpers.SerializableImage;
  *
  * @author JPEXS
  */
-public class AS3ShapeExporter extends ShapeExporterBase {
+public class CanvasShapeExporter extends ShapeExporterBase {
 
     protected static final String DRAW_COMMAND_M = "M";
 
@@ -85,17 +85,56 @@ public class AS3ShapeExporter extends ShapeExporterBase {
 
     protected int fillHeight = 0;
 
-    public static String getAS3Prefix() {
-        /* returns List of AS3 libraries to be imported */
+    public static String getJsPrefix() {
+        return "<script>var canvas=document.getElementById(\"myCanvas\");\r\n"
+                + "var ctx=canvas.getContext(\"2d\");\r\n"
+                + "enhanceContext(ctx);\r\n"
+                + "var ctrans = new cxform(0,0,0,0,255,255,255,255);\r\n";
     }
 
-    
-    public static String getAS3Suffix() {
-        /* returns ending syntax i.e. curly braces etc */
+    public static String getHtmlPrefix(int width, int height) {
+        return "<!DOCTYPE html>\r\n"
+                + "<html>\r\n"
+                + "<head>"
+                + "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />"
+                + "<script type=\"text/javascript\" src=\"canvas.js\"></script>"
+                + "<style type=\"text/css\">"
+                + "#resizable {position:relative; display:inline-block; margin:0; padding:0;font-size:0px;} "
+                + "#width_size {width:10px; position:absolute; right:-5px; top:0px; bottom:0px; cursor:e-resize;"
+                + "-webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;"
+                + "} "
+                + "#height_size {height:10px; position:absolute; bottom:-5px; left:0px; right:0px; cursor:n-resize;"
+                + "-webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;"
+                + "} "
+                /*+ "#both_size {height:10px; width:10px; position:absolute; bottom:-5px; right:-5px; cursor:nw-resize;"+
+                 "-webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;"
+                 +"} "*/
+                + "#myCanvas {margin:0; padding:0;} "
+                + "</style>"
+                + "</head>"
+                + "<body>\r\n"
+                + "\r\n"
+                + "<div id=\"resizable\"><canvas id=\"myCanvas\" width=\"" + width + "\" height=\"" + height + "\" style=\"border:1px solid #c3c3c3;\">\r\n"
+                + "Your browser does not support the HTML5 canvas tag.\r\n"
+                + "</canvas><div id=\"width_size\">&nbsp;</div><div id=\"height_size\">&nbsp;</div>"
+                //+ "<div id=\"both_size\">&nbsp;</div>"
+                + "</div>\r\n"
+                + "\r\n";
+
     }
 
-    public static String getDrawAS3(int width, int height, String data) {
-        /* set frame height, width, other requisites */
+    public static String getJsSuffix() {
+        return "</script>\r\n";
+    }
+
+    public static String getHtmlSuffix() {
+        return "</body>\r\n"
+                + "</html>";
+    }
+
+    public static String getDrawJs(int width, int height, String data) {
+        return "var originalWidth=" + width + ";\r\nvar originalHeight=" + height + ";\r\n function drawFrame(){\r\n"
+                + "\tctx.save();\r\n\tctx.transform(canvas.width/originalWidth,0,0,canvas.height/originalHeight,0,0);\r\n" + data + "\tctx.restore();\r\n}\r\n\tdrawFrame();\r\n";
     }
 
     public String getHtml(String needed) {
@@ -103,21 +142,20 @@ public class AS3ShapeExporter extends ShapeExporterBase {
         int width = (int) (r.getWidth() / unitDivisor);
         int height = (int) (r.getHeight() / unitDivisor);
 
-        return getAS3Prefix() + needed + getDrawAS3(width, height, shapeData) + getAS3Suffix();
+        return getHtmlPrefix(width, height) + getJsPrefix() + needed + getDrawJs(width, height, shapeData) + getJsSuffix() + getHtmlSuffix();
     }
 
     public String getShapeData() {
         return shapeData;
     }
 
-    public AS3ShapeExporter(RGB basicFill, double unitDivisor, SWF swf, SHAPE shape, ColorTransform colorTransform, int deltaX, int deltaY) {
+    public CanvasShapeExporter(RGB basicFill, double unitDivisor, SWF swf, SHAPE shape, ColorTransform colorTransform, int deltaX, int deltaY) {
         super(shape, colorTransform);
         this.swf = swf;
         this.unitDivisor = unitDivisor;
         this.basicFill = basicFill;
         this.deltaX = deltaX;
         this.deltaY = deltaY;
-        /* main constructor */
     }
 
     @Override
