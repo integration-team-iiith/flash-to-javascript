@@ -16,6 +16,7 @@ Below is the list of AS3 libraries imported by IIIT-H Lab experiments. Core AS3 
 + mx
 + fl
 + adobe
+
 Libraries such as com.* are external to Flash and can be ignored.
 
 com.longtailvideo.jwplayer.view.interfaces.IDockComponent; 5  
@@ -152,7 +153,6 @@ flash.geom.Vector3D; 2
 com.longtailvideo.jwplayer.utils.Strings; 18
 fl.transitions.easing.*; 7
 flash.system.Capabilities; 2
-o 2
 flash.profiler.*; 45
 com.jeroenwijering.events.ViewEvent; 2
 flash.events.StatusEvent; 1
