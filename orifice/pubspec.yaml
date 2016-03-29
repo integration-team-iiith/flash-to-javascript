@@ -1,4 +1,4 @@
-name: bernoulli
+name: orifice
 author: Yogesh Maheshwari
 description: Using bernoulli experiment to work with SpriteSheets
 dependencies:

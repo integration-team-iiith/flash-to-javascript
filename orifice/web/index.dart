@@ -1,4 +1,4 @@
-library bernoulli;
+library orifice;
 
 import 'dart:math';
 import 'dart:html' as html;
@@ -17,7 +17,7 @@ void main() {
 
   // configure StageXL default options
 
-  StageXL.stageOptions.renderEngine = RenderEngine.WebGL;
+  StageXL.stageOptions.renderEngine = RenderEngine.Canvas2D;
   StageXL.stageOptions.stageScaleMode = StageScaleMode.SHOW_ALL;
   StageXL.stageOptions.stageAlign = StageAlign.NONE;
   //StageXL.bitmapDataLoadOptions.webp = true; //*no idea
@@ -57,7 +57,7 @@ void startAnimation() {
   btn_st.addEventListener(MouseEvent.MOUSE_DOWN,(me)=>(stDownHandler()));
 
   var textureAtlas = resourceManager.getTextureAtlas("ta1");
-  var bitmapDatas = textureAtlas.getBitmapDatas("");
+  var bitmapDatas = textureAtlas.getBitmapDatas("orifce");
 
   // Create a flip book with the list of bitmapDatas.
 
@@ -100,7 +100,6 @@ void stDownHandler(){
 }
 
 void stopAnimation(FlipBook flipbook) {
-  stage.
   stage.juggler
     ..remove(flipbook)
     ..delayCall(startAnimation,0);
